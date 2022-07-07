@@ -1,7 +1,7 @@
 //
 import styled from "styled-components";
 import { MdSearch } from "react-icons/md";
-
+import { Link } from "react-router-dom";
 import Badge from "@mui/material/Badge";
 import mStyled from "@mui/material/styles/styled";
 import IconButton from "@mui/material/IconButton";
@@ -19,6 +19,9 @@ const StyledBadge = mStyled(Badge)(({ theme }) => ({
 const Container = styled.div`
   height: 60px;
   margin-bottom: 20px;
+
+  @media only screen and (max-width: 380px) {
+  } ;
 `;
 
 const Wrapper = styled.div`
@@ -81,17 +84,32 @@ const NavBar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>THE STORE. </Logo>
+          <Logo>
+            {" "}
+            <Link className="link" to={"/"}>
+              THE STORE.
+            </Link>{" "}
+          </Logo>
         </Center>
         <Right>
-          <MenuItem>Register</MenuItem>
-          <MenuItem>Sign In</MenuItem>
           <MenuItem>
-            <IconButton aria-label="cart">
-              <StyledBadge badgeContent={3} color="secondary">
-                <ShoppingCartIcon />
-              </StyledBadge>
-            </IconButton>
+            <Link className="link" to={"/register"}>
+              Register
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link className="link" to={"/login"}>
+              Sign In
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link className="link" to={"/cart"}>
+              <IconButton aria-label="cart">
+                <StyledBadge badgeContent={2} color="secondary">
+                  <ShoppingCartIcon />
+                </StyledBadge>
+              </IconButton>
+            </Link>
           </MenuItem>
         </Right>
       </Wrapper>{" "}
