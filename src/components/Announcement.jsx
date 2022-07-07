@@ -14,7 +14,7 @@ const Container = styled.div`
 const Announcement = () => {
   return (
     <>
-      <Container>Super Deal! Free shipping on Orders Over ₦50,000</Container>
+      <Container>Super Deal! Free shipping on Orders Over ₦500,000</Container>
     </>
   );
 };
