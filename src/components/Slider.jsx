@@ -1,5 +1,8 @@
 //
 import { useState } from "react";
+
+import { mobile } from "../responsive";
+
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import styled from "styled-components";
 import { sliderItems } from "../data";
@@ -11,6 +14,8 @@ const Container = styled.div`
   display: flex;
   position: relative;
   overflow: hidden;
+
+  ${mobile({ display: "none" })}
 `;
 const Arrow = styled.div`
   width: 50px;

@@ -1,5 +1,6 @@
 //
 import styled from "styled-components";
+import { mobile } from "../responsive";
 import {
   BsInstagram,
   BsFacebook,
@@ -12,6 +13,8 @@ import { AiOutlineMail } from "react-icons/ai";
 
 const Container = styled.div`
   display: flex;
+
+  ${mobile({ display: "block", backgroundColor: "wheat" })}
 `;
 const Left = styled.div`
   flex: 1;

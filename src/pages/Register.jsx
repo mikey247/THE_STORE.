@@ -1,4 +1,6 @@
 import styled from "styled-components";
+// import NavBar from "../components/NavBar";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
   width: 100vw;
@@ -18,6 +20,8 @@ const Wrapper = styled.div`
   width: 40%;
   padding: 30px;
   background-color: white;
+
+  ${mobile({ width: "75%" })}
 `;
 const Title = styled.h1`
   font-size: 24px;
@@ -48,24 +52,27 @@ const Button = styled.button`
 
 const Register = () => {
   return (
-    <Container>
-      <Wrapper>
-        <Title>CREATE AN ACCOUNT</Title>
-        <Form>
-          <Input placeholder="First Name" />
-          <Input placeholder="Last Name" />
-          <Input placeholder="Email" />
-          <Input placeholder="Username" />
-          <Input placeholder="Password" />
-          <Input placeholder="Confirm Password" />
-          <Agreement>
-            By creating an account, I consent to the processing of my personald
-            data in accordance with <b>PRIVACY AND POLICY</b>
-          </Agreement>
-          <Button>Register</Button>
-        </Form>
-      </Wrapper>
-    </Container>
+    <>
+      {/* <NavBar /> */}
+      <Container>
+        <Wrapper>
+          <Title>CREATE AN ACCOUNT</Title>
+          <Form>
+            <Input placeholder="First Name" />
+            <Input placeholder="Last Name" />
+            <Input placeholder="Email" />
+            <Input placeholder="Username" />
+            <Input placeholder="Password" />
+            <Input placeholder="Confirm Password" />
+            <Agreement>
+              By creating an account, I consent to the processing of my
+              personald data in accordance with <b>PRIVACY AND POLICY</b>
+            </Agreement>
+            <Button>Register</Button>
+          </Form>
+        </Wrapper>
+      </Container>
+    </>
   );
 };
 
