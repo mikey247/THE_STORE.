@@ -1,10 +1,10 @@
 import styled from "styled-components";
-// import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  /* width: 18rem; */
+  height: 50rem;
   background: linear-gradient(
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
@@ -15,13 +15,16 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  /* border: 2px solid red; */
+  /* ${mobile({ marginTop: "100px" })} */
 `;
 const Wrapper = styled.div`
   width: 40%;
   padding: 30px;
   background-color: white;
+  /* border: 2px solid blue; */
 
-  ${mobile({ width: "75%" })}
+  ${mobile({ width: "70%", marginTop: "10px" })}
 `;
 const Title = styled.h1`
   font-size: 24px;
@@ -53,7 +56,7 @@ const Button = styled.button`
 const Register = () => {
   return (
     <>
-      {/* <NavBar /> */}
+      <NavBar />
       <Container>
         <Wrapper>
           <Title>CREATE AN ACCOUNT</Title>

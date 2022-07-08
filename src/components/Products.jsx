@@ -2,6 +2,7 @@
 import { popularProducts } from "../data";
 import Product from "./Product";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   padding: 20px;
@@ -13,7 +14,9 @@ const Products = ({ item }) => {
   return (
     <Container>
       {popularProducts.map((item) => (
-        <Product item={item} key={item.id} />
+        <Link to={"/product"}>
+          <Product item={item} key={item.id} />
+        </Link>
       ))}
     </Container>
   );
