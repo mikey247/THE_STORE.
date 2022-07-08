@@ -4,7 +4,6 @@ import { mobile } from "../responsive";
 import NavBar from "../components/NavBar";
 
 const Container = styled.div`
-  width: 100vw;
   height: 100vh;
   background: linear-gradient(
       rgba(255, 255, 255, 0.5),
