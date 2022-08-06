@@ -1,4 +1,6 @@
 //
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { GrFormSubtract, GrFormAdd } from "react-icons/gr";
@@ -6,6 +8,9 @@ import Announcement from "../components/Announcement";
 import NavBar from "../components/NavBar";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from ".././redux/cartRedux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -107,50 +112,90 @@ const Button = styled.button`
 `;
 
 const ProductDetail = () => {
+  const { id } = useParams();
+  const [isLoading, setIsloading] = useState(true);
+  const [product, setProduuct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  console.log(color, size);
+
+  const cart = useSelector((state) => state.cart);
+  console.log(cart);
+
+  const dispatch = useDispatch();
+
+  const handleQuantity = (action) => {
+    if (action === "add") {
+      setQuantity((prev) => prev + 1);
+    } else {
+      quantity > 1 && setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handleCart = () => {
+    dispatch(
+      cartActions.addToCart({ product, quantity, price: product.price })
+    );
+  };
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/products/find/${id}`
+        );
+        console.log(res.data);
+        setProduuct(res.data);
+        setIsloading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProduct();
+  }, [id]);
+
+  if (isLoading) {
+    return <p>Loading.....</p>;
+  }
+
   return (
     <Container>
       <Announcement />
       <NavBar />
       <Wrapper>
         <ImageContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <Image src={product.image} />
         </ImageContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Description>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nemo neque, non qui ab voluptatibus! Lorem ipsum dolor
-            sit, amet consectetur adipisicing elit. Obcaecati, quas.
-          </Description>
-          <Price>₦50000</Price>
+          <Title>{product.title}</Title>
+          <Description>{product.description}</Description>
+          <Price>₦{product.price}</Price>
 
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+              {product.color?.map((i) => (
+                <FilterColor color={i} key={i} onClick={() => setColor(i)} />
+              ))}
             </Filter>
 
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-                <FilterSizeOption>XXL </FilterSizeOption>
+              <FilterSize onChange={(event) => setSize(event.target.value)}>
+                {product.size?.map((i) => (
+                  <FilterSizeOption key={i}>{i}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <GrFormSubtract />
-              <Amount>1</Amount>
-              <GrFormAdd />
+              <GrFormSubtract onClick={() => handleQuantity("subtract")} />
+              <Amount>{quantity}</Amount>
+              <GrFormAdd onClick={() => handleQuantity("add")} />
             </AmountContainer>
-            <Button>Add to Cart</Button>
+            <Button onClick={handleCart}>Add to Cart</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

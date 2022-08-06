@@ -1,5 +1,7 @@
 //
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
 import { ShoppingCart, Search, FavoriteBorder } from "@mui/icons-material";
 
 const Info = styled.div`
@@ -16,7 +18,6 @@ const Info = styled.div`
   justify-content: center;
   transition: all 0.5s ease;
   cursor: pointer;
-
   /* &:hover {
     transform: scale(1.1);
     opacity: 1;
@@ -33,7 +34,6 @@ const Container = styled.div`
   background-color: #f5fbfd;
   position: relative;
   padding: 10px;
-
   &:hover ${Info} {
     opacity: 1;
   }
@@ -60,7 +60,6 @@ const Icon = styled.div`
   justify-content: center;
   margin: 10px;
   transition: all 0.5s ease;
-
   &:hover {
     background-color: rgb(221, 242, 242);
     transform: scale(1.1);
@@ -72,13 +71,15 @@ const Product = ({ item }) => {
   return (
     <Container>
       <Circle />
-      <Image src={item.img} />
+      <Image src={item.image} />
       <Info>
         <Icon>
           <ShoppingCart />
         </Icon>
         <Icon>
-          <Search />
+          <Link to={`/product/${item._id}`}>
+            <Search />
+          </Link>
         </Icon>
         <Icon>
           <FavoriteBorder />
