@@ -5,6 +5,7 @@ import Announcement from "../components/Announcement";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { GrFormSubtract, GrFormAdd } from "react-icons/gr";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 
@@ -146,6 +147,24 @@ const Button = styled.button`
   font-weight: 600;
 `;
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const auth = useSelector((state) => state.auth);
+
+  const handlePayment = () => {
+    console.log("Paystack Abeg");
+    fetch("http://localhost:5000/api/payment/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: auth.userEmail,
+        full_name: auth.userFullName,
+        amount: cart.total,
+      }),
+    });
+  };
+
   return (
     <Container>
       <Announcement />
@@ -155,7 +174,7 @@ const Cart = () => {
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
+            <TopText>Shopping Bag({cart.quantity})</TopText>
             <TopText>Your Wishlist(0)</TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
@@ -163,84 +182,75 @@ const Cart = () => {
 
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> JESSIE THUNDER SHOES
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 58932939349
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b> 47.5
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
+            {cart.products.map((item) => (
+              <Product key={item.id}>
+                <ProductDetail>
+                  <Image src={item.image} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {item.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID:</b> {item._id}
+                    </ProductId>
+                    <ProductColor color={item.color} />
+                    <ProductSize>
+                      <b>Size:</b>
+                      {item.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
 
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <GrFormSubtract />
-                  <ProductAmount>2</ProductAmount>
-                  <GrFormAdd />
-                </ProductAmountContainer>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <GrFormSubtract />
+                    <ProductAmount>{item.quantity}</ProductAmount>
+                    <GrFormAdd />
+                  </ProductAmountContainer>
 
-                <ProductPrice>₦ 37000</ProductPrice>
-              </PriceDetail>
-            </Product>
+                  <ProductPrice>₦{item.price * item.quantity}</ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
 
             <HR />
-
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> HAKURA T-SHIRT
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 58932939349
-                  </ProductId>
-                  <ProductColor color="grey" />
-                  <ProductSize>
-                    <b>Size:</b> XXL
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <GrFormSubtract />
-                  <ProductAmount>1</ProductAmount>
-                  <GrFormAdd />
-                </ProductAmountContainer>
-
-                <ProductPrice>₦ 24000</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
 
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>₦ 61000</SummaryItemPrice>
+              <SummaryItemPrice>₦ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>₦ 7000</SummaryItemPrice>
+              {cart.products.length > 1 ? (
+                <SummaryItemPrice> ₦ 7000 </SummaryItemPrice>
+              ) : (
+                <SummaryItemPrice> ₦ 0 </SummaryItemPrice>
+              )}
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>₦ -7000</SummaryItemPrice>
+              {/*  */}
+              {cart.total > 50000 ? (
+                <SummaryItemPrice>-₦ 7000</SummaryItemPrice>
+              ) : (
+                <SummaryItemPrice>₦ 0</SummaryItemPrice>
+              )}
+              {/*  */}
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>₦ 61000</SummaryItemPrice>
+              {/*  */}
+              {cart.total > 50000 ? (
+                <SummaryItemPrice>₦ {cart.total - 7000}</SummaryItemPrice>
+              ) : (
+                <SummaryItemPrice>₦ {cart.total}</SummaryItemPrice>
+              )}
+              {/*  */}
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <Button onClick={handlePayment}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>

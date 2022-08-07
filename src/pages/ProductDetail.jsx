@@ -134,9 +134,7 @@ const ProductDetail = () => {
   };
 
   const handleCart = () => {
-    dispatch(
-      cartActions.addToCart({ product, quantity, price: product.price })
-    );
+    dispatch(cartActions.addToCart({ ...product, quantity, color, size }));
   };
 
   useEffect(() => {
@@ -183,6 +181,7 @@ const ProductDetail = () => {
             <Filter>
               <FilterTitle>Size</FilterTitle>
               <FilterSize onChange={(event) => setSize(event.target.value)}>
+                <FilterSizeOption></FilterSizeOption>
                 {product.size?.map((i) => (
                   <FilterSizeOption key={i}>{i}</FilterSizeOption>
                 ))}
