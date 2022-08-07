@@ -152,7 +152,7 @@ const Cart = () => {
 
   const handlePayment = () => {
     console.log("Paystack Abeg");
-    fetch("http://localhost:5000/api/payment/checkout", {
+    fetch("http://127.0.0.1:5000/api/payment/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -183,7 +183,7 @@ const Cart = () => {
         <Bottom>
           <Info>
             {cart.products.map((item) => (
-              <Product key={item.id}>
+              <Product key={item._id}>
                 <ProductDetail>
                   <Image src={item.image} />
                   <Details>
