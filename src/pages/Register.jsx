@@ -69,7 +69,7 @@ const Register = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    fetch("http://127.0.0.1:5000/api/auth/register", {
+    fetch("https://the-store-backend.vercel.app/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -25,8 +25,8 @@ const Products = ({ category, sort, filters }) => {
       try {
         const res = await axios.get(
           category
-            ? `http://localhost:5000/api/products?category=${category}`
-            : "http://localhost:5000/api/products"
+            ? `https://the-store-backend.vercel.app/api/products?category=${category}`
+            : "https://the-store-backend.vercel.app/api/products"
         );
         // console.log(res.data);
         setProducts(res.data);

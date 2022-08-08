@@ -141,7 +141,7 @@ const ProductDetail = () => {
     const getProduct = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/products/find/${id}`
+          `https://the-store-backend.vercel.app/api/products/find/${id}`
         );
         console.log(res.data);
         setProduuct(res.data);

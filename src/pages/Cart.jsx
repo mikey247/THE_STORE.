@@ -6,6 +6,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { GrFormSubtract, GrFormAdd } from "react-icons/gr";
 import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -149,10 +150,11 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const auth = useSelector((state) => state.auth);
+  // const navigate = useNavigate();
 
   const handlePayment = () => {
     console.log("Paystack Abeg");
-    fetch("http://127.0.0.1:5000/api/payment/checkout", {
+    fetch("https://the-store-backend.vercel.app/api/payment/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,7 +164,12 @@ const Cart = () => {
         full_name: auth.userFullName,
         amount: cart.total,
       }),
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("ssssssssssssss", data, "ssssssssssssss");
+        window.location.replace(data);
+      });
   };
 
   return (
