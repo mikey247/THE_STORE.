@@ -12,9 +12,11 @@ import ProductList from "./pages/ProductList";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProductDetail from "./pages/ProductDetail";
+import { useSelector } from "react-redux";
 
 function App() {
-  const user = false;
+  const auth = useSelector((state) => state.auth);
+
   return (
     <>
       <Routes>
@@ -23,9 +25,12 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route
           path="/register"
-          element={user ? <Navigate to="/" /> : <Register />}
+          element={auth.isLoggedIn ? <Navigate to="/" /> : <Register />}
         />
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route
+          path="/login"
+          element={auth.isLoggedIn ? <Navigate to="/" /> : <Login />}
+        />
         <Route path="/cart" element={<Cart />} />
       </Routes>
     </>

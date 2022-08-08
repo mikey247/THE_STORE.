@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import NavBar from "../components/NavBar";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authActions } from "../redux/authRedux";
 import { useState } from "react";
 
@@ -66,8 +66,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const auth = useSelector((state) => state.auth);
-  console.log(auth);
+  // const auth = useSelector((state) => state.auth);
+  // console.log(auth);
 
   const form = {
     username: userName,
@@ -85,7 +85,7 @@ const Login = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         dispatch(authActions.login({ ...data }));
       })
       .catch((err) => {

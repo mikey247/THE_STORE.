@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import { mobile } from "../responsive";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authActions } from "../redux/authRedux";
 // import axios from "axios";
 
@@ -78,7 +78,7 @@ const Register = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
 
         dispatch(authActions.login({ ...data }));
       })

@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 import { MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../redux/authRedux";
+
 import Badge from "@mui/material/Badge";
 import mStyled from "@mui/material/styles/styled";
 import IconButton from "@mui/material/IconButton";
@@ -82,6 +84,14 @@ const MenuItem = styled.div`
 
 const NavBar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(authActions.logout());
+    window.location.reload();
+    // navigate("/login");
+  };
 
   return (
     <Container>
@@ -102,16 +112,25 @@ const NavBar = () => {
           </Logo>
         </Center>
         <Right>
-          <MenuItem>
-            <Link className="link" to={"/register"}>
-              Register
-            </Link>
-          </MenuItem>
-          <MenuItem>
-            <Link className="link" to={"/login"}>
-              LogIn
-            </Link>
-          </MenuItem>
+          {!auth.isLoggedIn ? (
+            <>
+              <MenuItem>
+                <Link className="link" to={"/register"}>
+                  Register
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link className="link" to={"/login"}>
+                  LogIn
+                </Link>
+              </MenuItem>
+            </>
+          ) : (
+            <>
+              <MenuItem>Hello, {auth.userFullName.split(" ")[0]}</MenuItem>
+              <MenuItem onClick={handleLogout}>LogOut</MenuItem>
+            </>
+          )}
           <MenuItem>
             <Link className="link" to={"/cart"}>
               <IconButton aria-label="cart">

@@ -35,7 +35,13 @@ const authSlice = createSlice({
 
       //   state.isAdmin = action.payload.user.isAdmin;
     },
-    logout: () => {},
+    logout: () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("email");
+      localStorage.removeItem("fullName");
+    },
   },
 });
 
