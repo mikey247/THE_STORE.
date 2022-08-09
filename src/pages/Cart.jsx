@@ -154,7 +154,7 @@ const Cart = () => {
 
   const handlePayment = () => {
     console.log("Paystack Abeg");
-    fetch("https://the-store-backend.vercel.app/api/payment/checkout", {
+    fetch("http://localhost:5000/api/payment/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -165,10 +165,13 @@ const Cart = () => {
         amount: cart.total,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        // console.log(res);yyyyyy
+        res.json();
+      })
       .then((data) => {
         console.log("ssssssssssssss", data, "ssssssssssssss");
-        window.location.replace(data);
+        // window.location.replace(data);
       });
   };
 

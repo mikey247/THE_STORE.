@@ -77,6 +77,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     fetch("https://the-store-backend.vercel.app/api/auth/login", {
+      // fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
