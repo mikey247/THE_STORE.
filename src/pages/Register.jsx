@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
-import { mobile } from "../responsive";
+import { mobile, tablet } from "../responsive";
 import { useDispatch } from "react-redux";
 import { authActions } from "../redux/authRedux";
 // import axios from "axios";
@@ -38,6 +38,8 @@ const Input = styled.input`
   min-width: 40%;
   margin: 20px 10px 0px 0px;
   padding: 10px;
+
+  ${tablet({})}
 `;
 const Agreement = styled.span`
   font-size: 12px;
@@ -52,13 +54,47 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const PasswordDiv = styled.div`
+  display: flex;
+`;
+
 const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const dispatch = useDispatch();
+
+  const validEmail = useMemo(
+    () =>
+      new RegExp("^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$").test(email),
+    [email]
+  );
+
+  const validPassword = useMemo(
+    () =>
+      new RegExp(
+        "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+      ).test(password),
+    [password]
+  );
+
+  console.log(confirmPassword);
+
+  // const passwordConfirm = useMemo(()=>{
+  //   if (password===confirmPassword){
+  //     return true
+  //   }else{
+  //     return false
+  //   }
+  // },[password,confirmPassword])
+
+  console.log(validEmail, validPassword);
 
   const form = {
     fullName: firstName + " " + lastName,
@@ -69,22 +105,27 @@ const Register = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    fetch("https://the-store-backend.vercel.app/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...form }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
 
-        dispatch(authActions.login({ ...data }));
+    // console.log({ email: emailErr, password: pwdError });
+
+    if (validEmail && validPassword) {
+      fetch("https://the-store-backend.vercel.app/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...form }),
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(data);
+
+          dispatch(authActions.login({ ...data }));
+        })
+        .catch((err) => {
+          console.log("My", err);
+        });
+    }
   };
 
   return (
@@ -97,24 +138,56 @@ const Register = () => {
             <Input
               placeholder="First Name"
               onChange={(e) => setFirstName(e.target.value)}
+              required
+              type={"text"}
             />
             <Input
               placeholder="Last Name"
               onChange={(e) => setLastName(e.target.value)}
+              required
+              type={"text"}
             />
             <Input
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              required
             />
             <Input
               placeholder="Username"
               onChange={(e) => setUserName(e.target.value)}
+              type="text"
             />
             <Input
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
+              type={showPassword ? "" : "password"}
+              required
             />
-            <Input placeholder="Confirm Password" />
+            <Input
+              placeholder="Confirm Password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type={showPassword ? "" : "password"}
+              required
+            />
+            <PasswordDiv>
+              <input
+                type="checkbox"
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                }}
+              />
+              <p>Show Password</p>
+            </PasswordDiv>
+            <div>
+              {!validEmail && <p>Your email is invalid</p>}
+              {!validPassword && (
+                <p>
+                  Your password must contain one upper case letter, lower case
+                  letter, number and special symbol
+                </p>
+              )}
+            </div>
             <Agreement>
               By creating an account, I consent to the processing of my
               personald data in accordance with <b>PRIVACY AND POLICY</b>

@@ -62,10 +62,21 @@ const Link = styled.a`
   cursor: pointer;
 `;
 
+const ErrorText = styled.p`
+  color: red;
+`;
+
+const PasswordDiv = styled.div`
+  display: flex;
+`;
+
 const Login = () => {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   // const auth = useSelector((state) => state.auth);
   // console.log(auth);
 
@@ -86,8 +97,12 @@ const Login = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
-        dispatch(authActions.login({ ...data }));
+        console.log(data);
+        if (!data.user) {
+          setErrors("Wrong username or password");
+        } else {
+          dispatch(authActions.login({ ...data }));
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -105,9 +120,20 @@ const Login = () => {
               onChange={(e) => setUserName(e.target.value)}
             />
             <Input
+              type={showPassword ? "" : "password"}
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
-            />
+            ></Input>
+            <PasswordDiv>
+              <input
+                type="checkbox"
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                }}
+              />
+              <p>Show Password</p>
+            </PasswordDiv>
+            {errors && <ErrorText>{errors}</ErrorText>}
             <Button>Sign In</Button>
             <Link>DO NOT REMEMBER YOUR PASSWORD?</Link>
             <Link>CREATE A NEW ACCOUNT</Link>

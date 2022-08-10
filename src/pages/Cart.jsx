@@ -154,7 +154,7 @@ const Cart = () => {
 
   const handlePayment = () => {
     console.log("Paystack Abeg");
-    fetch("http://localhost:5000/api/payment/checkout", {
+    fetch("https://the-store-backend.vercel.app/api/payment/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

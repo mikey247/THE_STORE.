@@ -14,3 +14,12 @@ code {
   text-decoration: none;
   color: black;
 }
+
+.loading {
+  text-align: center;
+  font-size: 20px;
+
+  position: relative;
+  top: 0;
+  bottom: 0;
+}
