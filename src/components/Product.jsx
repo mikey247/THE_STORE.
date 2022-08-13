@@ -2,6 +2,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+import { cartActions } from "../redux/cartRedux";
+
 import { ShoppingCart, Search, FavoriteBorder } from "@mui/icons-material";
 
 const Info = styled.div`
@@ -68,13 +71,22 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+  const dispatch = useDispatch();
+  // console.log(item);
+
+  const handleAddToCart = () => {
+    dispatch(
+      cartActions.addToCart({ ...item, quantity: 1, size: item.size[0] })
+    );
+  };
+
   return (
     <Container>
       <Circle />
       <Image src={item.image} />
       <Info>
         <Icon>
-          <ShoppingCart />
+          <ShoppingCart onClick={handleAddToCart} />
         </Icon>
         <Icon>
           <Link to={`/product/${item._id}`}>

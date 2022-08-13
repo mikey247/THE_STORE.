@@ -5,7 +5,8 @@ import Announcement from "../components/Announcement";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { GrFormSubtract, GrFormAdd } from "react-icons/gr";
-import { useSelector } from "react-redux";
+import { cartActions } from "../redux/cartRedux";
+import { useSelector, useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
 const Container = styled.div``;
@@ -150,6 +151,8 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  // console.log(cart, cart.products.length);
   // const navigate = useNavigate();
 
   const handlePayment = () => {
@@ -213,9 +216,19 @@ const Cart = () => {
 
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <GrFormSubtract />
+                    <GrFormSubtract
+                      onClick={() => {
+                        dispatch(cartActions.removeFromCart(item._id));
+                      }}
+                    />
                     <ProductAmount>{item.quantity}</ProductAmount>
-                    <GrFormAdd />
+                    <GrFormAdd
+                      onClick={() => {
+                        dispatch(
+                          cartActions.addToCart({ ...item, quantity: 1 })
+                        );
+                      }}
+                    />
                   </ProductAmountContainer>
 
                   <ProductPrice>₦{item.price * item.quantity}</ProductPrice>
@@ -234,7 +247,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              {cart.products.length > 1 ? (
+              {cart.products.length >= 1 ? (
                 <SummaryItemPrice> ₦ 7000 </SummaryItemPrice>
               ) : (
                 <SummaryItemPrice> ₦ 0 </SummaryItemPrice>

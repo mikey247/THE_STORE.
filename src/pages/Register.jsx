@@ -64,7 +64,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -84,7 +84,7 @@ const Register = () => {
     [password]
   );
 
-  console.log(confirmPassword);
+  // console.log(confirmPassword);
 
   // const passwordConfirm = useMemo(()=>{
   //   if (password===confirmPassword){
@@ -94,7 +94,7 @@ const Register = () => {
   //   }
   // },[password,confirmPassword])
 
-  console.log(validEmail, validPassword);
+  // console.log(validEmail, validPassword);
 
   const form = {
     fullName: firstName + " " + lastName,
@@ -166,7 +166,7 @@ const Register = () => {
             />
             <Input
               placeholder="Confirm Password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              // onChange={(e) => setConfirmPassword(e.target.value)}
               type={showPassword ? "" : "password"}
               required
             />
