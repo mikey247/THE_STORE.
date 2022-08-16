@@ -180,11 +180,12 @@ const Register = () => {
               <p>Show Password</p>
             </PasswordDiv>
             <div>
-              {!validEmail && <p>Your email is invalid</p>}
+              {!validEmail && <p>Email is required</p>}
               {!validPassword && (
                 <p>
-                  Your password must contain one upper case letter, lower case
-                  letter, number and special symbol
+                  Your password must be a minimum of 8 characters, contain one
+                  upper case letter, lower case letter, number and special
+                  symbol
                 </p>
               )}
             </div>
